@@ -26,3 +26,6 @@ node/**/package-lock.json
 # python
 python/**/.venv
 python/**/__pycache__/
+
+# mongodb
+mongodb/backup
