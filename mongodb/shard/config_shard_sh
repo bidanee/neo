@@ -9,7 +9,7 @@ export IP_TEMP=$(ip addr | grep enp0s3 | grep inet | cut -d " " -f6 | cut -d "/"
 echo $IP_TEMP
 
 # remove data directory
-if [ -d data ]; then
+if [ -d /shard/data ]; then
     rm -rf /shard/data
 fi
 
@@ -24,7 +24,7 @@ sleep 3s #3초 딜레이
 mongo $IP_TEMP:27019 < rs.init
 
 # Router Server
-touch /shard/data/logs/mongoRouter.log
+touch /shard/data/logs/mongorouter.log
 
 mongos --config /work/neo/mongodb/shard/mongoRouter.conf &
 sleep 3s
