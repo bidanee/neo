@@ -20,7 +20,8 @@ connection.connect(function(err){
 
 app.get('/', function (req, res) {
     connection.query('select * from st_info', function (err, rows, fields) {
-        if (err) {
+        connection.end();
+        if (!err) {
             res.send(rows);
             console.log('The solution is : ', rows);
         }else{
