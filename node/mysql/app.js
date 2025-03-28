@@ -5,7 +5,7 @@ var app = express();
 
 var connection = mysql.createConnection({
     host: process.env.host,
-    user: process.env.useer,
+    user: process.env.user,
     password: process.env.password,
     database: process.env.database
 }); 
