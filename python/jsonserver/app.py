@@ -18,6 +18,12 @@ async def getUsers():
     response = requests.get(base_url)
     return response.json()
 
+@app.post(path='/users')
+async def postUsers(id:str, name: str):
+    data = dict(id=id, name=name)
+    response = requests.post(base_url, json=data)
+    return response.json()
+
 @app.get(path='/users/params1')
 async def usert_params(id:Union[str,None] = None, name:Union[str,None] = None):
     if(id is None) and (name is None):
