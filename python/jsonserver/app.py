@@ -82,9 +82,6 @@ async def users_param(id=str):
             data = response.json()
         except ValueError:
             raise HTTPException(status_code=500, detail="Invalid JSON respnose from server")
-
-        if not data:
-            return {"message": "User Not found","data":None}
         
         return data 
     except requests.exceptions.RequestException:
