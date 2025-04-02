@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calendar</title>
+        <style>
+            body {
+                margin-left: 100px;
+            }
+            div {
+                text-align: center;
+                margin-top: 40px;
+            }
+            table {
+                border-collapse: collapse;
+                border-style: none;
+            }
+            td, th {
+                text-align: center;
+                padding: 5px;
+                height: 5px;
+                width: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Calendar</h3>
+        <hr>
+        <script>
+            let input = prompt("원하는 년도와 달을 입력하세요.(예:202504)",202504);
+            const input_year = input.substr(0,4);
+            const input_month = input.substr(4,2);
+            var startDay = new Date(input_year + "-" + input_month).getDay();
+            var endDay = new Date(input_year,input_month,0).getDate()
+            document.write(`
+            <div>`+ input_year + `/` + input_month+`</div>
+            <table id="calendar" border="3" align="center" width="400" height="300">
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+            `)
+            let day = 1;
+            while(day <= endDay+startDay){
+                if(day-startDay <= 0 ){
+                    document.write("<td></td>")
+                }else{   
+                if(day % 7 == 1){
+                document.write(`<tr><td>` +(day-startDay)+`</td>`)
+            }else if(day % 7 == 0){
+                document.write(`<td>` +(day-startDay)+`</td></tr>`)}
+                else{
+                    document.write(`<td>` +(day-startDay)+`</td>`)
+                }
+                }
+                day++
+            }
+            
+        </script>
+    </body>
+</html>

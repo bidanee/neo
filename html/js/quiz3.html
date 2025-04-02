@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Quiz2</title>
+</head>
+<body>
+<h3>Quiz2</h3>
+<hr>
+<script>
+    let n = 5;
+    let array = new Array(n);
+    let max = 0
+    let min ;
+    document.write("배열의 길이 : "+n+"<br>");
+    for(let i=0; i<n; i++){
+        min = array[i]
+        array[i] = Math.floor(Math.random() * 100 + 1);
+        max = max > array[i] ? max : array[i];
+        min = min < array[i] ? min : array[i];
+    }
+    document.write("전체 배열의 값: "+array+"<br>");
+    document.write("<br> 배열의 원소 중 최대값 : "+max);
+    document.write("<br> 배열의 원소 중 최소값 : "+min);
+    
+    
+</script>
+</body>
+</html>

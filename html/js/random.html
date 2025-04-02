@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>javascript random()</title>
+</head>
+<body>
+    <h3>Random number 추출</h3>
+    <script>
+        let num = prompt("Random number 최대값을 입력하세요.",3);
+        num = parseInt(num);
+        let x = Math.floor(Math.random() * num +1);
+        document.write("Random Number : " +x);
+    </script>
+</body>
+</html>
