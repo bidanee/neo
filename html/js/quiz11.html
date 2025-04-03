@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Object Prototype으로  Book 객체 만들기</title>
+  <script>
+    function Car(brand, grade, maxFuel,displacement,price){
+      // property 
+        this.brand = brand;
+        this.grade = grade;
+        this.maxFuel = maxFuel;
+        this.displacement = displacement;
+        this.price = price;
+        // method
+        this.info = function () {
+          document.write(`
+          brand : ${this.brand}<br>
+          grade : ${this.grade}<br>
+          maxFuel : ${this.maxFuel}<br>
+          displacement : ${this.displacement} <br>
+          price : ${this.price} <br>
+          <hr>
+          `)
+        }
+        this.drive = function(from,to,distance){
+          document.write(`${this.brand} 차량이 ${from}에서 ${to}까지 ${distance}Km 주행하셨습니다.<br>
+          총 주행거리는 ${this.displacement + distance}입니다.<br>
+          `)
+          document.write(`잔여 연료량은 ${this.maxFuel - distance} 입니다.<br>`)
+          if(this.maxFuel - distance < 50) {
+            
+            document.write(`주유가 필요합니다.<br>`)
+          }
+          
+          document.write(`<hr>`)
+          this.maxFuel -=distance
+          this.displacement +=distance
+          
+        };
+        this.refueling = function (amount){
+          document.write(`
+          ${amount}L 주유하여 잔여 연료량은 ${this.maxFuel + amount}L입니다.<hr>
+          `)
+          this.maxFuel+=amount
+        }
+      }
+      
+  </script>
+</head>
+<body>
+  <h3>프로토 타입으로 Car 객체 만들기</h3>
+  <hr>
+  <script>
+    let benz = new Car("Benz","SUV", 900, 4000, 3000)
+    benz.info()
+    benz.drive("Seoul", "Busan", 400);
+    benz.drive("Busan","Incheon" ,460);
+    benz.refueling(860)
+
+    let bmw = new Car("BMW","Sedan",500,2500,2000)
+    bmw.info()
+    bmw.drive("Seoul","Daejeon",300);
+    bmw.refueling(200);
+    bmw.drive("Daejeon","Seoul",300);
+
+  </script>
+</body>
+</html>
