@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>오 저 모</title>
+</head>
+<body>
+    <h1 style="text-align: center; color:rgb(13, 97, 112)">오 저 모</h1>
+
+    <form name="menu_Form" action="/tdm" method="post">
+        <fieldset style="background-color: skyblue; border-radius: 16px; border-color: skyblue; border:none;">
+            <legend style="color: rgb(71, 105, 255); font-size: large; font-weight: 800;">오늘 뭐먹지?</legend>
+            data : 	<input type="date" value="2025-04-01">
+            time : 	<input type="time" value="21:30">
+            <hr style="background-color: white; height: 1px; border:0">
+            <input type="radio" name="menu" id="한식">
+            <label style="color: black; font-weight: 500;" for="한식">한식</label>
+            <select name="korea" style="width: 70px;">
+                    <option value="1" selected>김치찌개</option>
+                    <option value="2" >된장찌개</option>
+                    <option value="3">비빔밥</option>
+            </select> <br><br>
+            <input type="radio" name="menu" id="중식" size="10">
+            <label style="color: black; font-weight: 500;" for="중식">중식</label>
+            <select name="china" style="width: 70px;">
+                <option value="1" selected>짜장면</option>
+                <option value="2">짬뽕</option>
+                <option value="3">탕수육</option>
+            </select> <br><br>
+                <input type="radio" name="menu" id="양식" size="10">
+                <label  style="color: black; font-weight: 500;"for="양식">양식</label>
+            <select name="western" style="width: 70px;">
+                <option value="1" selected>스테이크</option>
+                <option value="2">파스타</option>
+                <option value="3">뇨끼</option>
+            </select> <br><br>
+                <input type="radio" name="menu" id="기타">
+                <label style="color: black; font-weight: 500;" for="기타">기타</label>
+                <input type="text" style="width: 65px;" name="m_menu">
+                <hr style="background-color: white; height: 1px; border:0">
+                <input type="submit" value="전송">
+                &nbsp;&nbsp;
+                <input type="reset" value="취소">  
+        </fieldset>
+        
+    </form>
+</body>
+</html>
+
