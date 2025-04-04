@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 var connection =new mysql({
     host: process.env.host,
     user: process.env.user,
+    port: process.env.port,
     password: process.env.password,
     database: process.env.database
 }); 
