@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <title>가위바위보 게임 II</title>
+      <script>
+        const rsp_map = {1:"가위", 2:"바위", 3:"보"};
+        const rspGame = () => {
+          let rsp_map = {1:"가위", 2:"바위", 3:"보"};
+          let user = document.querySelector('input[name="rsp"]:checked').value;
+          user = parseInt(user);
+            let com = Math.floor(Math.random() * 3 +1);
+            verdic = user -com;
+            if(verdic == -2 || verdic ==1){
+              alert(`User : ${rsp_map[user]} vs Computer : ${rsp_map[com]} \n 당신이 이겼다.`);
+              return;
+            }else if(verdic == -1 || verdic ==2){
+              alert(`User : ${rsp_map[user]} vs Computer : ${rsp_map[com]} \n 당신이 졌다.`);
+              return;
+            }else{
+              alert(`User : ${rsp_map[user]} vs Computer : ${rsp_map[com]} \n 비겼다.`);
+              return;
+            }
+        }
+        
+        
+      </script>
+
+  </head>
+  <body style="padding-left: 4px;">
+    <h3>가위 바위 보 게임 II</h3>
+    <hr>
+    <input type="radio" name="rsp" value="1" id="rsp1"><label for="rsp1">가위</label>
+    <input type="radio" name="rsp" value="2" id="rsp2"><label for="rsp2">바위</label>
+    <input type="radio" name="rsp" value="3" id="rsp3" checked><label for="rsp3">보</label>
+    <br><br>
+    <button type="button" id="btn" onclick="rspGame()">Game Go!!</button>
+    
+
+
+  </body>
+    
+</html>
