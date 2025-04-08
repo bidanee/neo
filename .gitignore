@@ -37,3 +37,4 @@ oracle/**/node_modules
 oracle/**/package-lock.json
 
 **/*.gz
+**.idea
