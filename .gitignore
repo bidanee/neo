@@ -39,3 +39,5 @@ oracle/**/package-lock.json
 **/*.gz
 .idea
 team_project/*
+
+secret.json
