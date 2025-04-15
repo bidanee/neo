@@ -40,4 +40,4 @@ oracle/**/package-lock.json
 .idea
 team_project/*
 
-secret.json
+**/secret.json
