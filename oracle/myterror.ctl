@@ -1,8 +1,8 @@
-OPTION (SKIP=1)
+OPTIONS (SKIP=1)
 load data
 infile 'myterror.csv'
-insert into table myterrorfields terminated by ','
-trailing nullcol(
+insert into table myterror fields terminated by','
+trailing nullcols(
   event_id,
   iyear,
   imonth,
