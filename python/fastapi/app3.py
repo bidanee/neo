@@ -4,6 +4,7 @@ from fastapi.responses import PlainTextResponse, JSONResponse
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
+import uuid
 
 app = FastAPI()
 
@@ -22,10 +23,8 @@ class ResponseUserDto(BaseModel):
     class Config:
         json_schema_extra = {
             'example': {
-                'nickname': '왓슨',
-                'email': 'watson@example.com',
-                'phone' : '010-1234-5678',
-                'description' : '버즈니 왓슨입니다.'
+                'id' : uuid.uuid4(),
+                'email' : 'watson@example.com',
             }
         }
 
