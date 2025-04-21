@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>떠남의 조건</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #ddd;
+      flex-shrink: 0;
+    }
+
+    .menu-icon, .search-icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .logo{
+      display: flex;
+      align-items: center;
+      padding: 5px;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin: 0;
+    }
+
+    /* Side menu */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #ffffff;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .side-menu.active {
+      left: 0;
+    }
+
+    .side-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .side-menu li {
+      margin-bottom: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #333;
+    }
+
+    main.content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+    }
+
+    .page.active {
+    display: flex;
+    }
+
+    .highlight-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #2daaff;
+    color: white;
+    padding: 60px 20px;
+    margin-top: auto;
+    border-radius: 40px 40px 0 0;
+    text-align: center;
+    height: 50rem;
+    }
+
+    .highlight-box h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    }
+
+    .highlight-box h1 {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+    }
+
+    .highlight-box button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: white;
+    color: #2daaff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+
+    /* 환율 정보 페이지 레이아웃 */
+    .left-panel {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      width: 100%;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      flex: 1;
+    }
+    .exchange {
+        background-color: #ff8686;
+    }
+    .flight{
+        background-color: #a59ed3;
+    }
+    .holiday{
+        background-color: #a4d6cc;
+    }
+    .left-panel h2 {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        font-size: 30px;
+        background-color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn-exchange{
+        color: #ff8686;
+    }
+
+    .btn-flight{
+        color: #a59ed3;
+    }
+    .btn-holiday{
+        color: #a4d6cc;
+    }
+
+    .right-panel {
+        padding: 30px 20px;
+        text-align: center;
+        background-color: white;
+        flex: 1;
+    }
+
+    .right-panel h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .chart {
+        max-width: 90%;
+        height: auto;
+        border: 1px solid #ccc;
+    }
+
+    @media (min-width: 768px) {
+        .exchange-layout {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        }
+
+        .left-panel, .right-panel {
+        width: 50%;
+        height: 100%;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <div class="logo">
+                <h1>떠남의 조건</h1>
+            </div>
+        <div class="search-icon"></div>
+    </header>
+
+    <nav class="side-menu" id="sideMenu">
+    <ul>
+        <li onclick="showPage('main')">메인으로</li>
+        <li onclick="showPage('exchange')">환율 정보</li>
+        <li onclick="showPage('flight')">항공권 결제</li>
+        <li onclick="showPage('holiday')">연휴 정보</li>
+
+    </ul>
+    </nav>
+
+    <main class="content">
+    <!-- 메인 페이지 -->
+    <div id="main" class="page ">
+        <div class="highlight-box">
+        
+            <h1>우리가 추천하는 여행의 조건,<br>한번 들어볼래?</h1>
+            <button class="btn">같이 알아볼까?</button>
+        </div>
+    </div>
+
+    <!-- 환율 정보 페이지 -->
+    <div id="exchange" class="page active">
+        <div class="exchange-layout">
+            <div class="left-panel exchange">
+            <h2>환율이 낮아진 지금<br>여행갈 타이밍인가?</h2>
+                <button onclick="getExchangeRate()" class="btn btn-exchange" >환율정보</button>
+            </div>
+        <div class="right-panel">
+            <h2>환율,<br>지금이 적당해요</h2>
+            <div id="result"></div>
+            </div>
+        </div>
+    </div>
+        <!-- 비행 정보 페이지 -->
+    <div id="flight" class="page">
+        <div class="exchange-layout">
+        <div class="left-panel flight">
+            <h2>나의 항공권 결제<br>지금이 괜찮을까요?</h2>
+            <button class="btn btn-flight">가격정보</button>
+        </div>
+        <div class="right-panel">
+            <h2>항공권 가격,<br>지금이 적당해요</h2>
+        </div>
+        </div>
+    </div>
+
+        <!-- 축제 정보 페이지 -->
+    <div id="holiday" class="page">
+        <div class="exchange-layout">
+            <div class="left-panel holiday">
+            <h2>연휴인데<br>어디안가?</h2>
+            <button class="btn btn-holiday">환율정보</button>
+            </div>
+            <div class="right-panel">
+            <h2>지금은 독일에서<br>옥토버 페스티벌 기간</h2>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+    }
+
+    function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+      toggleMenu(); // 메뉴 닫기
+    }
+    
+async function getExchangeRate() {
+    try {
+        const res = await fetch('http://192.168.1.19:8000/rexchange_rate');
+
+        if (!res.ok) {
+            throw new Error("서버 응답 실패: " + res.status);
+        }
+
+        const data = await res.json();
+        console.log(data);  // ✅ 실제 데이터 확인
+
+        // 결과를 HTML에 표시해보자
+        document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+        console.error("에러 발생:", error);
+        document.getElementById("result").textContent = "❌ 오류: " + error.message;
+    }
+}
+
+
+</script>
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const exchangeBtn = document.querySelector(".btn-exchange");
+        function fetchExchangeRate() {
+        const xhr = new XMLHttpRequest(); 
+        const url = "http://192.168.1.19:8000/rexchange_rate";
+        xhr.open("GET", url, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) { 
+                const data = JSON.parse(xhr.responseText); 
+                console.log("환율 정보:", data); 
+            } else {
+                console.error("서버 요청 실패:", xhr.status);
+                alert("서버에서 환율 정보를 불러오지 못했습니다.");
+            }
+        };
+            xhr.onerror = function () {
+            console.error("네트워크 오류 발생");
+            alert("네트워크 오류가 발생했습니다.");
+        };
+            xhr.send();
+        }
+        exchangeBtn.addEventListener("click", fetchExchangeRate);
+    });
+
+</script> -->
+</body>
+</html>

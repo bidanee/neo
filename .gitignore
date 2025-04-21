@@ -41,3 +41,6 @@ oracle/**/package-lock.json
 team_project/*
 
 **/secret.json
+
+**/node*
+**/package-lock.json
