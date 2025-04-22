@@ -1,339 +1,253 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>떠남의 조건</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>떠남의 조건</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSans.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.0/Cafe24SsurroundAir.woff2"
+      type="text/css"
+      crossorigin="anonymous"
+    />
 
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      border-bottom: 1px solid #ddd;
-      flex-shrink: 0;
-    }
-
-    .menu-icon, .search-icon {
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .logo{
-      display: flex;
-      align-items: center;
-      padding: 5px;
-    }
-
-    h1 {
-      font-size: 40px;
-      margin: 0;
-    }
-
-    /* Side menu */
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background-color: #ffffff;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
-      z-index: 999;
-      padding: 20px;
-    }
-
-    .side-menu.active {
-      left: 0;
-    }
-
-    .side-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .side-menu li {
-      margin-bottom: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #333;
-    }
-
-    main.content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .page {
-      flex: 1;
-      display: none;
-      flex-direction: column;
-    }
-
-    .page.active {
-    display: flex;
-    }
-
-    .highlight-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #2daaff;
-    color: white;
-    padding: 60px 20px;
-    margin-top: auto;
-    border-radius: 40px 40px 0 0;
-    text-align: center;
-    height: 50rem;
-    }
-
-    .highlight-box h2 {
-    font-size: 40px;
-    margin-bottom: 10px;
-    }
-
-    .highlight-box h1 {
-    font-size: 40px;
-    font-weight: bold;
-    margin: 0;
-    }
-
-    .highlight-box button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    background-color: white;
-    color: #2daaff;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    }
-
-    /* 환율 정보 페이지 레이아웃 */
-    .left-panel {
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      width: 100%;
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-      flex: 1;
-    }
-    .exchange {
-        background-color: #ff8686;
-    }
-    .flight{
-        background-color: #a59ed3;
-    }
-    .holiday{
-        background-color: #a4d6cc;
-    }
-    .left-panel h2 {
-        font-size: 60px;
-        margin-bottom: 20px;
-    }
-
-    .btn {
-        font-size: 30px;
-        background-color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .btn-exchange{
-        color: #ff8686;
-    }
-
-    .btn-flight{
-        color: #a59ed3;
-    }
-    .btn-holiday{
-        color: #a4d6cc;
-    }
-
-    .right-panel {
-        padding: 30px 20px;
-        text-align: center;
-        background-color: white;
-        flex: 1;
-    }
-
-    .right-panel h2 {
-        font-size: 22px;
-        margin-bottom: 20px;
-    }
-
-    .chart {
-        max-width: 90%;
-        height: auto;
-        border: 1px solid #ccc;
-    }
-
-    @media (min-width: 768px) {
-        .exchange-layout {
-        display: flex;
-        flex: 1;
-        flex-direction: row;
-        }
-
-        .left-panel, .right-panel {
-        width: 50%;
-        height: 100%;
-        }
-    }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-            <div class="logo">
-                <h1>떠남의 조건</h1>
-            </div>
-        <div class="search-icon"></div>
-    </header>
-
-    <nav class="side-menu" id="sideMenu">
-    <ul>
-        <li onclick="showPage('main')">메인으로</li>
-        <li onclick="showPage('exchange')">환율 정보</li>
-        <li onclick="showPage('flight')">항공권 결제</li>
-        <li onclick="showPage('holiday')">연휴 정보</li>
-
-    </ul>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div>
+        <div class="nav-logo poetsen" onclick="showPage('main')">
+          떠남의 조건<i class="fas fa-plane plane-icon"></i>
+        </div>
+        <ul class="nav-menu">
+          <li class="nav-item dropdown">
+            <span onclick="showPage('exchange')" class="badge badge-pink"
+              >환율 정보</span
+            >
+            <span onclick="showPage('flight')" class="badge badge-purple"
+              >비행기 가격</span
+            >
+            <span onclick="showPage('holiday')" class="badge badge-mint"
+              >축제 정보</span
+            >
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <main class="content">
-    <!-- 메인 페이지 -->
-    <div id="main" class="page ">
-        <div class="highlight-box">
-        
-            <h1>우리가 추천하는 여행의 조건,<br>한번 들어볼래?</h1>
-            <button class="btn">같이 알아볼까?</button>
-        </div>
-    </div>
-
-    <!-- 환율 정보 페이지 -->
-    <div id="exchange" class="page active">
-        <div class="exchange-layout">
-            <div class="left-panel exchange">
-            <h2>환율이 낮아진 지금<br>여행갈 타이밍인가?</h2>
-                <button onclick="getExchangeRate()" class="btn btn-exchange" >환율정보</button>
+      <div id="main" class="page active">
+        <div class="holiday-container">
+          <div class="holiday-box">
+            <div class="exchange-layout">
+              <div class="left-panel main">
+                <i
+                  class="slide-in-left fa-solid fa-plane-departure airplane"
+                ></i>
+                <h1 class="slide-in-left">
+                  우리가 추천하는 여행의 조건,<br /><br />한번 들어볼래?
+                </h1>
+                <br />
+                <form class="d-flex" role="search">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input
+                    style="width: 300px; height: 50px"
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                  />
+                  <button
+                    class="btn btn-main"
+                    style="width: 180px; height: 50px; font-size: 20px"
+                    type="submit"
+                  >
+                    같이 알아볼까?
+                  </button>
+                </form>
+              </div>
+              <div class="right-panel">
+                <h2>➡️ 추천하는 여행의 조건</h2>
+                <div class="card mb-3 mr-5" style="max-width: 540px">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        src="https://th.bing.com/th/id/OIP.SOKOMUk9pGrBnyzl-J2iugHaE7?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                        class="img-fluid rounded-start"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">환율</h5>
+                        <p class="card-text">환율 정보</p>
+                        <p class="card-text">
+                          <small class="text-body-secondary"
+                            >Last updated 3 mins ago</small
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card mb-3 mr-5" style="max-width: 540px">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        src="https://th.bing.com/th/id/OIP.SOKOMUk9pGrBnyzl-J2iugHaE7?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                        class="img-fluid rounded-start"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">비행기 가격</h5>
+                        <p class="card-text">비행기 가격 정보</p>
+                        <p class="card-text">
+                          <small class="text-body-secondary"
+                            >Last updated 3 mins ago</small
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card mb-3 mr-5" style="max-width: 540px">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        src="https://th.bing.com/th/id/OIP.SOKOMUk9pGrBnyzl-J2iugHaE7?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                        class="img-fluid rounded-start"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">축제</h5>
+                        <p class="card-text">축제 정보</p>
+                        <p class="card-text">
+                          <small class="text-body-secondary"
+                            >Last updated 3 mins ago</small
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="result"></div>
+              </div>
             </div>
-        <div class="right-panel">
-            <h2>환율,<br>지금이 적당해요</h2>
-            <div id="result"></div>
-            </div>
+          </div>
         </div>
-    </div>
-        <!-- 비행 정보 페이지 -->
-    <div id="flight" class="page">
-        <div class="exchange-layout">
-        <div class="left-panel flight">
-            <h2>나의 항공권 결제<br>지금이 괜찮을까요?</h2>
-            <button class="btn btn-flight">가격정보</button>
-        </div>
-        <div class="right-panel">
-            <h2>항공권 가격,<br>지금이 적당해요</h2>
-        </div>
-        </div>
-    </div>
+      </div>
 
-        <!-- 축제 정보 페이지 -->
-    <div id="holiday" class="page">
-        <div class="exchange-layout">
+      <!-- 환율 정보 페이지 -->
+      <div id="exchange" class="page">
+        <div class="holiday-container">
+          <div class="holiday-box">
+            <div class="exchange-layout">
+              <div class="left-panel exchange">
+                <i class="fa-solid fa-solid1 fa-location-dot"></i>
+                <h2 class="slide-in-left">
+                  환율이 낮아진 지금<br />여행갈 타이밍인가?
+                </h2>
+                <button onclick="getExchangeRate()" class="btn btn-exchange">
+                  환율정보
+                </button>
+              </div>
+              <div class="right-panel">
+                <h2>환율,<br />지금이 적당해요</h2>
+                <div id="result">2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 비행 정보 페이지 -->
+      <div id="flight" class="page">
+        <div class="holiday-container">
+          <div class="holiday-box">
+            <div class="exchange-layout">
+              <div class="left-panel flight">
+                <i class="fa-solid fa-solid1 fa-location-dot"></i>
+                <h2 class="slide-in-left">
+                  나의 항공권 결제<br />지금이 괜찮을까요?
+                </h2>
+                <button class="btn btn-flight">가격정보</button>
+              </div>
+              <div class="right-panel">
+                <h2>항공권 가격,<br />지금이 적당해요</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 축제 정보 페이지 -->
+      <div id="holiday" class="page">
+        <div class="holiday-container">
+          <div class="holiday-box">
             <div class="left-panel holiday">
-            <h2>연휴인데<br>어디안가?</h2>
-            <button class="btn btn-holiday">환율정보</button>
+              <i class="fa-solid fa-location-dot"></i>
+              <h1 id="holidayTitle" class="slide-in-left scrollable-title">
+                연휴인데<br />어디안가?
+              </h1>
+              <div id="festivalsContainer"></div>
+              <button class="btn btn-holiday">축제정보</button>
             </div>
             <div class="right-panel">
-            <h2>지금은 독일에서<br>옥토버 페스티벌 기간</h2>
+              <h2>축제,<br />지금이 적당해요 🎊🎊</h2>
+              <form id="festivalsForm">
+                <label for="country">🎉 가고 싶은 나라는?</label>
+                <input type="text" id="country" name="country" required />
+                <div class="date-fields">
+                  <div class="date-input">
+                    <label for="start_date">📆 시작일</label>
+                    <input
+                      type="text"
+                      id="start_date"
+                      name="start_date"
+                      required
+                    />
+                  </div>
+                  <div class="date-input">
+                    <label for="end_date">📆 종료일</label>
+                    <input type="text" id="end_date" name="end_date" required />
+                  </div>
+                </div>
+                <button class="btn-parties" id="btnHoliday" type="submit">
+                  축제 조회
+                </button>
+                <div id="festivalsContainer"></div>
+              </form>
             </div>
+          </div>
         </div>
-    </div>
-</main>
-
-<script>
-    function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-    }
-
-    function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-      toggleMenu(); // 메뉴 닫기
-    }
-    
-async function getExchangeRate() {
-    try {
-        const res = await fetch('http://192.168.1.19:8000/rexchange_rate');
-
-        if (!res.ok) {
-            throw new Error("서버 응답 실패: " + res.status);
-        }
-
-        const data = await res.json();
-        console.log(data);  // ✅ 실제 데이터 확인
-
-        // 결과를 HTML에 표시해보자
-        document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-    } catch (error) {
-        console.error("에러 발생:", error);
-        document.getElementById("result").textContent = "❌ 오류: " + error.message;
-    }
-}
-
-
-</script>
-
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const exchangeBtn = document.querySelector(".btn-exchange");
-        function fetchExchangeRate() {
-        const xhr = new XMLHttpRequest(); 
-        const url = "http://192.168.1.19:8000/rexchange_rate";
-        xhr.open("GET", url, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) { 
-                const data = JSON.parse(xhr.responseText); 
-                console.log("환율 정보:", data); 
-            } else {
-                console.error("서버 요청 실패:", xhr.status);
-                alert("서버에서 환율 정보를 불러오지 못했습니다.");
-            }
-        };
-            xhr.onerror = function () {
-            console.error("네트워크 오류 발생");
-            alert("네트워크 오류가 발생했습니다.");
-        };
-            xhr.send();
-        }
-        exchangeBtn.addEventListener("click", fetchExchangeRate);
-    });
-
-</script> -->
-</body>
+      </div>
+    </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+    <script src="holiday.js"></script>
+  </body>
 </html>

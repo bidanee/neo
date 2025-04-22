@@ -15,10 +15,15 @@
     "cor": "^0.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "flatpickr": "^4.6.13",
     "mongoose": "^8.13.2",
     "mysql2": "^3.14.0",
     "path": "^0.12.7",
     "send": "^1.2.0",
     "xhr2": "^0.2.1"
+  },
+  "prettier":{
+    "tabWidth": 2,
+    "useTabs": false
   }
 }

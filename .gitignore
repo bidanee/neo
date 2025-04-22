@@ -42,5 +42,6 @@ team_project/*
 
 **/secret.json
 
-**/node*
+**/node_*
 **/package-lock.json
+**/package.json
