@@ -14,28 +14,18 @@ app.get("/", (req, res) => {
   res.send("서버 켜짐!");
 });
 
+// 환율
 app.get("/rexchange_rate", async (req, res) => {
   const { country } = req.query;
   try {
     const response = await axios.get(
-      `http://192.168.1.19:3000/exchange_rate?country=${encodeURIComponent(
-        country
-      )}`,
-      { responseType: "stream" }
+      `http://192.168.1.19:3000/exchange_rate?country=${country}`
     );
 
-    // Content-Type과 파일 이름 유지
-    res.setHeader("Content-Type", response.headers["content-type"]);
-    res.setHeader(
-      "Content-Disposition",
-      response.headers["content-disposition"]
-    );
-
-    // 스트림으로 클라이언트에 전달
-    response.data.pipe(res);
+    res.json(response.data);
   } catch (error) {
     console.error("요청 오류 발생:", error);
-    res.status(500).send("FastAPI 서버 오류");
+    res.status(500).json({ error: "FastAPI 서버 오류" });
   }
 });
 
@@ -51,6 +41,7 @@ app.get("/rcurrent_exchange_rate", async (req, res) => {
   }
 });
 
+//축제
 app.get("/api/parties", async (req, res) => {
   const {
     country,
@@ -77,6 +68,42 @@ app.get("/api/parties", async (req, res) => {
         message: "FastAPI 서버 오류",
       }
     );
+  }
+});
+
+//비행기
+
+app.get("/api/flight_analysis", async (req, res) => {
+  const {
+    origin = "ICN",
+    destination,
+    departureDate,
+    currency = "KRW",
+  } = req.query;
+
+  if (!origin || !destination || !departureDate) {
+    return res.status(400).json({
+      Result: false,
+      message: "필수 파라미터가 누락되었습니다.",
+    });
+  }
+
+  try {
+    const response = await axios.get(
+      "http://192.168.1.50:3000/api/noise/flight_Prices",
+      {
+        params: { origin, destination, departureDate, currency },
+      }
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    console.error("FastAPI 요청 오류:", error.response?.data || error.message);
+    res.status(500).json({
+      Result: false,
+      message: "FastAPI 서버 요청 중 오류 발생",
+      error: error.response?.data || error.message,
+    });
   }
 });
 

@@ -20,7 +20,8 @@ app.add_middleware(
 )
 
 
-
+with open(country_file) as f:
+    country_code = json.loads(f.read())
 with open(secret_file) as f:
     secrets = json.loads(f.read())
 
@@ -32,94 +33,7 @@ def get_secret(setting, secrets=secrets):
 serviceKey = get_secret("ECOS_apiKey")
 
 
-# @app.get("/exchange_rate")
-# def get_exchange_rate(country: str = Query(..., description="나라 이름")):
-#     # 나라 이름으로 ITEM_CODE1 찾기
-#     country_info = next((item for item in country_code["exchange"] if item["country"] == country), None)
-#     if not country_info:
-#         return {"error": f"'{country}'에 해당하는 데이터를 찾을 수 없습니다."}
-
-#     item_code = country_info["ITEM_CODE1"]  # << 여기 중요! ITEM_CODE1 사용
-
-#     # 최근 12개월 기준 날짜 설정
-#     end_date = datetime.now().strftime('%Y%m')  # 예: 202404
-#     start_date = (datetime.now() - relativedelta(months=11)).strftime('%Y%m')  # 예: 202305
-
-#     # API URL 구성 (731Y004: 월평균 환율)
-#     url = (
-#         f"https://ecos.bok.or.kr/api/StatisticSearch/"
-#         f"{serviceKey}/json/kr/1/1000/731Y004/M/{start_date}/{end_date}/{item_code}"
-#     )
-
-#     try:
-#         response = requests.get(url)
-#         response.raise_for_status()
-#         data = response.json()
-#         items = data.get('StatisticSearch', {}).get('row', [])
-
-#         item_keys = ['ITEM_NAME1', 'DATA_VALUE']
-#         validItem = {}
-
-#         for i in items:
-#             if i['ITEM_NAME2'] == '평균자료':  # 평균자료만 필터링
-#                 key = i['TIME']
-#                 filtered = {k: i[k] for k in item_keys}
-#                 validItem[key] = filtered
-
-#         if not validItem:
-#             return {"error": "평균자료가 존재하지 않습니다."}
-
-#           return {
-#         "labels": [item["TIME"] for item in items],
-#         "datasets": [{
-#             "label": "환율",
-#             "data": [item["DATA_VALUE"] for item in items],
-#             "backgroundColor": "rgba(255, 99, 132, 0.2)",
-#             "borderColor": "rgba(255, 99, 132, 1)",
-#             "borderWidth": 1
-#         }]
-#     }
-
-@app.get("/exchange_rate")
-def get_exchange_rate(country: str = Query(..., description="나라 이름")):
-    # ... (중간 코드는 동일)
-
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-        items = data.get('StatisticSearch', {}).get('row', [])
-
-        item_keys = ['ITEM_NAME1', 'DATA_VALUE']
-        validItem = {}
-
-        for i in items:
-            if i['ITEM_NAME2'] == '평균자료':  # 평균자료만 필터링
-                key = i['TIME']
-                filtered = {k: i[k] for k in item_keys}
-                validItem[key] = filtered
-
-        if not validItem:
-            return {"error": "평균자료가 존재하지 않습니다."}
-
-        return {
-            "labels": list(validItem.keys()),
-            "datasets": [{
-                "label": "환율",
-                "data": [item["DATA_VALUE"] for item in validItem.values()],
-                "backgroundColor": "rgba(255, 99, 132, 0.2)",
-                "borderColor": "rgba(255, 99, 132, 1)",
-                "borderWidth": 1
-            }]
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
-
-
-with open(country_file) as f:
-    country_code = json.loads(f.read())
-
+current_rate = 0
 @app.get("/current_exchange_rate")
 def get_current_exchange_rate(country: str = Query(..., description="나라 이름")):
     today = datetime.today()
@@ -145,6 +59,7 @@ def get_current_exchange_rate(country: str = Query(..., description="나라 이�
         data = response.json()
 
         items = data.get("StatisticSearch", {}).get("row", [])
+        current_item = items[0]["DATA_VALUE"]
         result = [
             {
                 "날짜": item["TIME"],
@@ -158,6 +73,73 @@ def get_current_exchange_rate(country: str = Query(..., description="나라 이�
             result = result[1]
 
         return result if result else {"message": "해당 국가에 대한 환율 데이터가 없습니다."}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/exchange_rate")
+def get_exchange_rate(country: str = Query(..., description="나라 이름")):
+    country_info = next((item for item in country_code["exchange"] if item["country"] == country), None)
+
+    if not country_info:
+      print("country_info is none")
+      return {"error": f"'{country}'에 해당하는 데이터를 찾을 수 없습니다."}
+
+    item_code = country_info["ITEM_CODE1"]
+
+    end_date = datetime.now().strftime('%Y%m%d')
+    start_date = (datetime.now() - timedelta(days=100)).strftime('%Y%m%d')
+
+    url = (
+        f"https://ecos.bok.or.kr/api/StatisticSearch/"
+        f"{serviceKey}/json/kr/1/1000/731Y001/D/{start_date}/{end_date}/{item_code}"
+    )
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        items = data.get('StatisticSearch', {}).get('row', [])
+        
+        validItem = {}
+        item_keys = ['ITEM_NAME1', 'DATA_VALUE']
+
+        for i in items:
+                key = i['TIME']
+                filtered = {k: i[k] for k in item_keys}
+                validItem[key] = filtered
+
+        if not validItem:
+            return {"error": "자료가 존재하지 않습니다."}
+        return {
+          "labels": list(validItem.keys()),
+          "datasets": [{
+            "label": next(iter(validItem.values()))["ITEM_NAME1"],
+            "data": [float(v["DATA_VALUE"]) for v in validItem.values()],
+          "backgroundColor": "#ffffff",
+          "borderColor": "#ff8686",
+          "borderWidth": 2
+          }],
+          "current_rate": current_rate
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/get_current_exchange_all")
+def get_exchange_rate():
+    start_date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
+    end_date = datetime.now().strftime('%Y%m%d')
+    url = (
+        f"https://ecos.bok.or.kr/api/StatisticSearch/"
+        f"{serviceKey}/json/kr/1/1000/731Y001/D/{start_date}/{end_date}"
+    )
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        items = data.get('StatisticSearch', {}).get('row', [])
+        return items
 
     except Exception as e:
         return {"error": str(e)}
