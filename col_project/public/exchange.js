@@ -42,7 +42,6 @@ document
             <h2 style="font-weight: 800; font-size: 40px">${formattedDate} </h2>
           </div>
           <p style="font-size:30px">  <span style="color:#a4d6cc; font-weight: 800">${country}</span>의 환율은 <span style="color:#a4d6cc; font-weight: 800">${current_rate} ${currency_code}</span>입니다.</p>
-          <p>📊 최근 환율 정보!!!</p>
         `;
 
         // ✅ 과거 환율 데이터와 차트 생성
@@ -111,6 +110,19 @@ document
                 },
               ],
             });
+            // 평균 계산 및 현재 환율과 비교
+            const allRates = datasets[0].data.filter((v) => !isNaN(v)); // 과거 환율 데이터
+            const avgRate =
+              allRates.reduce((sum, val) => sum + val, 0) / allRates.length;
+
+            let adviceMessage = "";
+            if (current_rate < avgRate) {
+              adviceMessage = `<p style="color:lime; font-size:24px; font-weight:bold">💡 지금 환율이 평균보다 낮아요! 사는 거 추천<span class="float-cash">💸</span></p>`;
+            } else {
+              adviceMessage = `<p style="color:rgb(244, 6, 189); font-size:24px; font-weight:bold">💡 환율이 평균보다 높아요! 조금 더 기다려보세요<span class="animated-emoji">⏳</span></p>`;
+            }
+
+            resultDiv.innerHTML += adviceMessage;
 
             // 차트 생성 후 GIF 숨기기
             gifDiv.style.display = "none";

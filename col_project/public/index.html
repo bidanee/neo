@@ -34,7 +34,7 @@
   <body>
     <nav class="navbar">
       <div>
-        <div class="nav-logo poetsen" onclick="showPage('main')">
+        <div class="nav-logo poetsen" onclick="reloadPage()">
           떠남의 조건<i class="fas fa-plane plane-icon"></i>
           <i class="fa-solid fa-car-side"></i>
         </div>
@@ -154,10 +154,8 @@
             <div class="exchange-layout">
               <div class="left-panel exchange">
                 <div class="left-origin">
-                  <i class="fa-solid fa-solid1 fa-location-dot"></i>
-                  <h2 class="slide-in-left">
-                    환율이 낮아진 지금<br />여행갈 타이밍인가?
-                  </h2>
+                  <i class="fa-solid fa-location-dot"></i>
+                  <p class="h2-exchange">오늘 환율, <br />기회인가 함정인가?</p>
                   <button class="btn btn-exchange-fake">환율정보</button>
                 </div>
                 <div id="result-exchange"></div>
@@ -197,9 +195,9 @@
                 <div class="left-origin-flight">
                   <i class="fa-solid fa-location-dot"></i>
                   <!-- 기존 문구에 id 추가 -->
-                  <h2 id="flight-title" class="slide-in-left">
+                  <p class="h2-exchange" id="flight-title">
                     나의 항공권 결제<br />지금이 괜찮을까요?
-                  </h2>
+                  </p>
                   <button
                     class="btn btn-flight"
                     onclick="analyzeFlightPrices()"
@@ -279,8 +277,6 @@
                       "
                     ></ul>
                   </div>
-                  <!-- <label for="date">출발일:</label>
-                  <input type="text" id="date" name="date" required placeholder="예: 2025-06-18"> -->
                   <label for="date">❤️출발일(내일부터 가능!):</label>
                   <input
                     type="date"

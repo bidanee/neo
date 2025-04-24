@@ -1,13 +1,12 @@
-function toggleMenu() {
-  document.getElementById("sideMenu").classList.toggle("active");
-}
-
 function showPage(pageId) {
   document
     .querySelectorAll(".page")
     .forEach((p) => p.classList.remove("active"));
   document.getElementById(pageId).classList.add("active");
   toggleMenu(); // 메뉴 닫기
+}
+function reloadPage() {
+  window.location.reload();
 }
 
 const countryNameToCode = {
@@ -63,9 +62,9 @@ document
       data.festivals.forEach((festival) => {
         container.innerHTML += `
         <div>
-          <h3>${festival.title}</h3>
+          <h3><span style="margin-right:8px">🌈</span>${festival.title}</h3>
           <p>${festival.description}</p>
-          <p><strong>시작:</strong> ${festival.start} / <strong>종료:</strong> ${festival.end}</p>
+          <p>🔹<strong>시작:</strong> ${festival.start}  🔹<strong>종료:</strong> ${festival.end}</p>
           <hr>
         </div>
       `;
