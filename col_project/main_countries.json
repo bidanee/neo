@@ -3,262 +3,314 @@
     {
       "country": "미국",
       "ITEM_CODE1": "0000001",
-      "code": "USD"
+      "code": "USD",
+      "emoji": "🇺🇸"
     },
     {
       "country": "일본",
       "ITEM_CODE1": "0000002",
-      "code": "JPY(100)"
+      "code": "JPY(100)",
+      "emoji": "🇯🇵"
     },
     {
       "country": "유럽",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "독일",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "프랑스",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "이태리",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "벨기에",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "오스트리아",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "네덜란드",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "스페인",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "핀란드",
       "ITEM_CODE1": "0000003",
-      "code": "EUR"
+      "code": "EUR",
+      "emoji": "🇪🇺"
     },
     {
       "country": "영국",
       "ITEM_CODE1": "0000012",
-      "code": "GBP"
+      "code": "GBP",
+      "emoji": "🇬🇧"
     },
     {
       "country": "캐나다",
       "ITEM_CODE1": "0000013",
-      "code": "CAD"
+      "code": "CAD",
+      "emoji": "🇨🇦"
     },
     {
       "country": "스위스",
       "ITEM_CODE1": "0000014",
-      "code": "CHF"
+      "code": "CHF",
+      "emoji": "🇨🇭"
     },
     {
       "country": "홍콩",
       "ITEM_CODE1": "0000015",
-      "code": "HKD"
+      "code": "HKD",
+      "emoji": "🇭🇰"
     },
     {
       "country": "스웨덴",
       "ITEM_CODE1": "0000016",
-      "code": "SEK"
+      "code": "SEK",
+      "emoji": "🇸🇪"
     },
     {
       "country": "호주",
       "ITEM_CODE1": "0000017",
-      "code": "AUD"
+      "code": "AUD",
+      "emoji": "🇦🇺"
     },
     {
       "country": "덴마크",
       "ITEM_CODE1": "0000018",
-      "code": "DKK"
+      "code": "DKK",
+      "emoji": "🇩🇰"
     },
     {
       "country": "노르웨이",
       "ITEM_CODE1": "0000019",
-      "code": "NOK"
+      "code": "NOK",
+      "emoji": "🇳🇴"
     },
     {
       "country": "사우디아라비아",
       "ITEM_CODE1": "0000020",
-      "code": "SAR"
+      "code": "SAR",
+      "emoji": "🇸🇦"
     },
     {
       "country": "쿠웨이트",
       "ITEM_CODE1": "0000021",
-      "code": "KWD"
+      "code": "KWD",
+      "emoji": "🇰🇼"
     },
     {
       "country": "바레인",
       "ITEM_CODE1": "0000022",
-      "code": "BHD"
+      "code": "BHD",
+      "emoji": "🇧🇭"
     },
     {
       "country": "아랍에미리트",
       "ITEM_CODE1": "0000023",
-      "code": "AED"
+      "code": "AED",
+      "emoji": "🇦🇪"
     },
     {
       "country": "싱가포르",
       "ITEM_CODE1": "0000024",
-      "code": "SGD"
+      "code": "SGD",
+      "emoji": "🇸🇬"
     },
     {
       "country": "말레이시아",
       "ITEM_CODE1": "0000025",
-      "code": "MYR"
+      "code": "MYR",
+      "emoji": "🇲🇾"
     },
     {
       "country": "뉴질랜드",
       "ITEM_CODE1": "0000026",
-      "code": "NZD"
+      "code": "NZD",
+      "emoji": "🇳🇿"
     },
     {
       "country": "태국",
       "ITEM_CODE1": "0000028",
-      "code": "THB"
+      "code": "THB",
+      "emoji": "🇹🇭"
     },
     {
       "country": "인도네시아",
       "ITEM_CODE1": "0000029",
-      "code": "IDR"
+      "code": "IDR",
+      "emoji": "🇮🇩"
     },
     {
       "country": "홍콩",
       "ITEM_CODE1": "0000030",
-      "code": "HKD"
+      "code": "HKD",
+      "emoji": "🇭🇰"
     },
     {
       "country": "대만",
       "ITEM_CODE1": "0000031",
-      "code": "TWD"
+      "code": "TWD",
+      "emoji": "🇹🇼"
     },
     {
       "country": "몽골",
       "ITEM_CODE1": "0000032",
-      "code": "MNT"
+      "code": "MNT",
+      "emoji": "🇲🇳"
     },
     {
       "country": "카자흐스탄",
       "ITEM_CODE1": "0000033",
-      "code": "KZT"
+      "code": "KZT",
+      "emoji": "🇰🇿"
     },
     {
       "country": "필리핀",
       "ITEM_CODE1": "0000034",
-      "code": "PHP"
+      "code": "PHP",
+      "emoji": "🇵🇭"
     },
     {
       "country": "베트남",
       "ITEM_CODE1": "0000035",
-      "code": "VND(100)"
+      "code": "VND(100)",
+      "emoji": "🇻🇳"
     },
     {
       "country": "브루나이",
       "ITEM_CODE1": "0000036",
-      "code": "BND"
+      "code": "BND",
+      "emoji": "🇧🇳"
     },
     {
       "country": "인도",
       "ITEM_CODE1": "0000037",
-      "code": "INR"
+      "code": "INR",
+      "emoji": "🇮🇳"
     },
     {
       "country": "파키스탄",
       "ITEM_CODE1": "0000038",
-      "code": "PKR"
+      "code": "PKR",
+      "emoji": "🇵🇰"
     },
     {
       "country": "방글라데시",
       "ITEM_CODE1": "0000039",
-      "code": "BDT"
+      "code": "BDT",
+      "emoji": "🇧🇩"
     },
     {
       "country": "멕시코",
       "ITEM_CODE1": "0000040",
-      "code": "MXN"
+      "code": "MXN",
+      "emoji": "🇲🇽"
     },
     {
       "country": "브라질",
       "ITEM_CODE1": "0000041",
-      "code": "BRL"
+      "code": "BRL",
+      "emoji": "🇧🇷"
     },
     {
       "country": "아르헨티나",
       "ITEM_CODE1": "0000042",
-      "code": "ARS"
+      "code": "ARS",
+      "emoji": "🇦🇷"
     },
     {
       "country": "러시아",
       "ITEM_CODE1": "0000043",
-      "code": "RUB"
+      "code": "RUB",
+      "emoji": "🇷🇺"
     },
     {
       "country": "헝가리",
       "ITEM_CODE1": "0000044",
-      "code": "HUF"
+      "code": "HUF",
+      "emoji": "🇭🇺"
     },
     {
       "country": "폴란드",
       "ITEM_CODE1": "0000045",
-      "code": "PLN"
+      "code": "PLN",
+      "emoji": "🇵🇱"
     },
     {
       "country": "체코",
       "ITEM_CODE1": "0000046",
-      "code": "CZK"
+      "code": "CZK",
+      "emoji": "🇨🇿"
     },
     {
       "country": "카타르리약",
       "ITEM_CODE1": "0000047",
-      "code": "QAR"
+      "code": "QAR",
+      "emoji": "🇶🇦"
     },
     {
       "country": "이스라엘",
       "ITEM_CODE1": "0000048",
-      "code": "ILS"
+      "code": "ILS",
+      "emoji": "🇮🇱"
     },
     {
       "country": "요르단",
       "ITEM_CODE1": "0000049",
-      "code": "JOD"
+      "code": "JOD",
+      "emoji": "🇯🇴"
     },
     {
       "country": "튀르키예리라",
       "ITEM_CODE1": "0000050",
-      "code": "TRY"
+      "code": "TRY",
+      "emoji": "🇹🇷"
     },
     {
       "country": "남아프리카공화국",
       "ITEM_CODE1": "0000051",
-      "code": "ZAR"
+      "code": "ZAR",
+      "emoji": "🇿🇦"
     },
     {
       "country": "이집트",
       "ITEM_CODE1": "0000052",
-      "code": "EGP"
+      "code": "EGP",
+      "emoji": "🇪🇬"
     },
     {
       "country": "중국",
       "ITEM_CODE1": "0000053",
-      "code": "CNY"
+      "code": "CNY",
+      "emoji": "🇨🇳"
     }
   ]
 }

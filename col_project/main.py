@@ -45,7 +45,7 @@ def get_current_exchange_rate(country: str = Query(..., description="나라 이�
     # 입력한 나라 이름으로 항목 찾기 (ITEM_CODE1, code)
     country_info = next((item for item in country_code["exchange"] if item["country"] == country), None)
     if not country_info:
-        return {"error": f"'{country}'에 해당하는 데이터를 찾을 수 없습니다."}
+        return {"error": country}
 
     item_code = country_info["ITEM_CODE1"]
     currency_code = country_info.get("code", "")  # 빈 문자열이면 None 대신 "" 반환
@@ -71,6 +71,8 @@ def get_current_exchange_rate(country: str = Query(..., description="나라 이�
         ]
         if len(result) == 2:
             result = result[1]
+        else: 
+            result = result[0]
 
         return result if result else {"message": "해당 국가에 대한 환율 데이터가 없습니다."}
 
@@ -83,7 +85,7 @@ def get_exchange_rate(country: str = Query(..., description="나라 이름")):
 
     if not country_info:
       print("country_info is none")
-      return {"error": f"'{country}'에 해당하는 데이터를 찾을 수 없습니다."}
+      return {"error": f"'{country}'에 해당하는 데이터를 찾을 수 업쒀."}
 
     item_code = country_info["ITEM_CODE1"]
 
@@ -125,21 +127,57 @@ def get_exchange_rate(country: str = Query(..., description="나라 이름")):
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/get_current_exchange_all")
+
+
+@app.get("/current_exchange_all")
 def get_exchange_rate():
-    start_date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
-    end_date = datetime.now().strftime('%Y%m%d')
+    today = datetime.now().strftime('%Y%m%d')
+    yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
+
     url = (
         f"https://ecos.bok.or.kr/api/StatisticSearch/"
-        f"{serviceKey}/json/kr/1/1000/731Y001/D/{start_date}/{end_date}"
+        f"{serviceKey}/json/kr/1/1000/731Y001/D/{yesterday}/{today}"
     )
+
+    result = []
+
+    # 국가 정보 불러오기
+    country_file = os.path.join(BASE_DIR, "main_countries.json")
+    with open(country_file, "r", encoding="utf-8") as f:
+        country_data = json.load(f)
+    countries = country_data.get("exchange", [])
 
     try:
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
         items = data.get('StatisticSearch', {}).get('row', [])
-        return items
+        
+        # 오늘 데이터 있는지 확인
+        realItems = [item for item in items if item.get("TIME") == today]
+        if not realItems:
+            realItems = [item for item in items if item.get("TIME") == yesterday]
+        result_dict = {}
+        # 매칭해서 result 구성
+        for country in countries:
+            code = country.get("code")
+            item_code = country.get("ITEM_CODE1")
+            emoji = country.get("emoji")
 
+            # 환율 데이터 중에서 ITEM_CODE1이 일치하는 항목 찾기
+            matching = next((item for item in realItems if item.get("ITEM_CODE1") == item_code), None)
+            if matching and code not in result_dict:
+                exchange_rate = matching.get("DATA_VALUE")
+                result_dict[code] = {
+                    "code": code,
+                    "exchange_rate": exchange_rate,
+                    "emoji": emoji
+                }
+
+        result = list(result_dict.values())
     except Exception as e:
         return {"error": str(e)}
+
+    return result
+
+        # 시작

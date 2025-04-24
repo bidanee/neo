@@ -6,7 +6,7 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, "../public")));
 
 app.use(cors());
-const PORT = 8000;
+const PORT = 80;
 
 app.use(express.json());
 
@@ -38,6 +38,20 @@ app.get("/rcurrent_exchange_rate", async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error();
+  }
+});
+
+app.get("/api/all_exchange", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "http://192.168.1.19:3000/current_exchange_all"
+    );
+    res.json(response.data); // 이거 하나만 있으면 충분!
+  } catch (error) {
+    console.error("FastAPI 요청 실패:", error.message);
+    res
+      .status(500)
+      .json({ error: "FastAPI로부터 데이터를 가져오는 데 실패했습니다." });
   }
 });
 

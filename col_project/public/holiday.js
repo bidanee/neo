@@ -1,8 +1,13 @@
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("active");
+}
+
 function showPage(pageId) {
   document
     .querySelectorAll(".page")
     .forEach((p) => p.classList.remove("active"));
   document.getElementById(pageId).classList.add("active");
+  toggleMenu(); // 메뉴 닫기
 }
 
 const countryNameToCode = {
@@ -26,9 +31,15 @@ document
 
     const countryInput = document.getElementById("country").value.trim();
     let country = countryNameToCode[countryInput];
+    const container = document.getElementById("festivalsContainer");
 
     if (!country) {
-      alert("지원하지 않는 국가입니다. 예: 대한민국, 미국, 일본 등");
+      holidayTitle.innerHTML = `<div style="text-align: center; height: 600px">
+  <p>축제가 없어! 미안해 😢</p>
+  </div>`;
+      container.innerHTML = `<div>
+      <img src="suap.gif" style="width: 300px; height: 300px; margin-top: 10px;" />
+    </div>`;
       return;
     }
 
@@ -41,10 +52,14 @@ document
     );
     const data = await res.json();
 
-    const container = document.getElementById("festivalsContainer");
     container.innerHTML = "";
 
-    if (data.resultCode && data.festivals.length > 0) {
+    if (
+      data.resultCode === true &&
+      Array.isArray(data.festivals) &&
+      data.resultCode &&
+      data.festivals.length > 0
+    ) {
       data.festivals.forEach((festival) => {
         container.innerHTML += `
         <div>
@@ -55,8 +70,6 @@ document
         </div>
       `;
       });
-    } else {
-      container.innerHTML = `<p>조건에 맞는 축제가 없습니다.</p>`;
     }
   });
 
@@ -74,7 +87,7 @@ flatpickr("#end_date", {
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("festivalsForm");
-  const headline = document.getElementById(".resultBox");
+  headline = document.getElementById(".resultBox");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -99,8 +112,6 @@ btnHoliday.addEventListener("click", () => {
 
   if (country) {
     holidayTitle.innerHTML = `<div><span style="color: #16cba7; background-color: white; border-radius: 5px">"${country}"</span> 축제에 관한 내용 보여줄게!</div>`;
-  } else {
-    holidayTitle.innerHTML = `어느 나라 축제를 찾고 있니? 나라 이름을 입력해줘!`;
   }
 
   e.preventDefault();
@@ -130,7 +141,7 @@ btnHoliday.addEventListener("click", (s) => {
 });
 
 const ctx = document.getElementById("chartCanvas").getContext("2d");
-const apiKey = "YjZA4Mwc2DPMFUfMkZvJcaGfjsTUdWcO"; // 여기에 본인의 Ticketmaster API 키 입력
+const apiKey = "YjZA4Mwc2DPMFUfMkZvJcaGfjsTUdWcO";
 
 const countryToCode = {
   일본: "JP",
@@ -312,5 +323,4 @@ document.getElementById("country").addEventListener("change", (e) => {
   updateChart(e.target.value);
 });
 
-// 초기 로드
 updateChart("미국");
