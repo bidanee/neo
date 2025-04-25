@@ -32,6 +32,12 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body>
+    <div id="my-modal" class="modal">
+      <div class="modal-content">
+        <p>해당 페이지는 현재 개발 중이며, 곧 만나보실 수 있습니다.</p>
+        <button class="close">확인</button>
+      </div>
+    </div>
     <nav class="navbar">
       <div>
         <div class="nav-logo poetsen" onclick="reloadPage()">
@@ -53,7 +59,6 @@
         </ul>
       </div>
     </nav>
-
     <main class="content">
       <div id="main" class="page active">
         <div class="holiday-container">
@@ -67,7 +72,7 @@
                   우리가 추천하는 여행의 조건,<br /><br />한번 들어볼래?
                 </h1>
                 <br />
-                <form class="d-flex" role="search">
+                <div class="d-flex">
                   <i class="fa-solid fa-magnifying-glass"></i>
                   <input
                     style="width: 300px; height: 50px"
@@ -76,13 +81,13 @@
                     placeholder="Search"
                   />
                   <button
+                    id="open-modal"
                     class="btn btn-main"
                     style="width: 180px; height: 50px; font-size: 20px"
-                    type="submit"
                   >
                     같이 알아볼까?
                   </button>
-                </form>
+                </div>
               </div>
               <div class="right-panel">
                 <h2>➡️ 추천하는 여행의 조건</h2>
@@ -132,10 +137,12 @@
                 </div>
                 <div
                   style="
+                    display: flex;
+                    justify-content: center;
                     margin-left: 60px;
-                    margin-top: 60px;
+                    margin-top: 10px;
                     width: 600px;
-                    height: 300px;
+                    height: 250px;
                   "
                 >
                   <canvas id="chartCanvas" width="900" height="500"></canvas>
@@ -372,5 +379,6 @@
     <script src="holiday.js"></script>
     <script src="flight.js"></script>
     <script src="exchange.js"></script>
+    <script src="modal.js"></script>
   </body>
 </html>

@@ -1002,3 +1002,41 @@ button.btn-parties:hover {
   align-items: center;
   padding-bottom: 10em;
 }
+
+.modal {
+  display: none; /* 기본은 숨김 */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  width: 800px;
+  height: 300px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background: #2daaff;
+  border-radius: 15px;
+  color: white;
+  margin-top: 20px;
+}
