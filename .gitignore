@@ -46,3 +46,8 @@ team_project/*
 **/node_modules
 **/package-lock.json
 **/package.json
+
+
+# docker
+docker/mysql/mysql*
+docker/mongodb/mongo*
