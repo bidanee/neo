@@ -51,3 +51,4 @@ team_project/*
 # docker
 docker/mysql/mysql*
 docker/mongodb/mongo*
+docker/mongo/mongod
