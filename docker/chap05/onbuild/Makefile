@@ -5,7 +5,7 @@ build:
 inspect:
 	docker inspect --format="{{.Config.OnBuild}}" web-base
 run:
-	docker run -it -d -p 8000:80 photoview
+	docker run -it -d -p 8000:80 photoview 
 ps:
 	docker ps -a
 img:
