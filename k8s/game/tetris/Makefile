@@ -12,14 +12,14 @@ getsvc:
 getpod:
 	kubectl get pod -o wide
 delsvc:
-	kubectl delete svc mario
+	kubectl delete svc tetris
 deldep:
-	kubectl delete deployment mario
+	kubectl delete deployment tetris
 delpod:
-	kubectl get pod | grep mario | awk '{print $$1}' | xargs - I {} kubectl delete pod {} --force
+	kubectl get pod | grep tetris | awk '{print $$1}' | xargs - I {} kubectl delete pod {} --force
 desdep:
-	kubectl describe deployment mario
+	kubectl describe deployment tetris
 dessvc:
-	kubectl describe svc mario
+	kubectl describe svc tetris
 despod:
-	kubectl describe pod mario
+	kubectl describe pod tetris
