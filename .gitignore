@@ -52,3 +52,5 @@ team_project/*
 docker/mysql/mysql*
 docker/mongodb/mongo*
 docker/mongo/mongod
+
+**/nestjs
