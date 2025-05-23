@@ -26,8 +26,10 @@ node/**/package.json
 node/**/.serverless
 
 # python
+.idea
 python/**/.venv
 python/**/__pycache__/
+**/.venv
 
 # mongodb
 mongodb/backup
@@ -38,7 +40,6 @@ oracle/**/node_modules
 oracle/**/package-lock.json
 
 **/*.gz
-.idea
 team_project/*
 
 **/secret.json
