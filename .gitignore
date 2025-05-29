@@ -56,3 +56,6 @@ docker/mongo/mongod
 
 **/nestjs
 **/VL_*
+
+**/data
+**/*.txt
