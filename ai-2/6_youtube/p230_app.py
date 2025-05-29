@@ -34,9 +34,14 @@ def remove_invalid_char_for_filename(input_str):
   return input_str
 
 def download_youtube_video(video_url, folder, filename=None):
-  _, title, _, _, _= get_youtube_video_info(video_url)  
-  filename_no_ext = remove_invalid_char_for_filename(title)
+  video_info= get_youtube_video_info(video_url)  
   
+  if isinstance(video_info, str) and video_info.startswith('Error'):
+    print(video_info)
+    return None, None
+  title = video_info['title']
+  filename_no_ext = remove_invalid_char_for_filename(title)
+    
   if filename == None:
     download_file = f'{filename_no_ext}.mp4'
   else:
@@ -57,7 +62,7 @@ def download_youtube_video(video_url, folder, filename=None):
   
   with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     video_info = ydl.extract_info(video_url, download=True)
-    title = video_info.get('title')
+    title = video_info.get('title',None)
   return title, download_path
 
 video_url = 'https://www.youtube.com/watch?v=pSJrML-TTmI'
