@@ -61,3 +61,4 @@ docker/mongo/mongod
 **/*.txt
 **/*.mp4
 **/*.mp3
+z_mediapipe/*
