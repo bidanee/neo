@@ -49,7 +49,7 @@ def summarize_youtube_video(video_url, selected_lang, trans_method):
   except TranscriptsDisabled:
     st.error('이 동영상의 자막이 비활성화되어 있습니다.')
     return
-  except EXception as e:
+  except Exception as e:
     st.error(f'자막을 가져오는 중 오류가 발생했습니다. : {str(e)}')
     return
   
