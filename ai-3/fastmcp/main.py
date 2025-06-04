@@ -12,10 +12,27 @@ import json
 sys.stderr.write(f'[DEBUG] sys.path = {sys.path}\n')
 sys.stderr.write(f'[DEBUG] current dir = {os.getcwd()}\n')
 
-from fastmcp import FastMCP
+# MCP Server Entry
+from fastmcp import FastMCP, Context
 
+# Message definitions (imported from base.py)
 from prompts.base import Message, UserMessage, AssistantMessage
 
+SECRET_PATH = os.path.join(os.path.dirname(__file__), 'secret.json')
+try:
+  with open(SECRET_PATH, 'r') as f:
+    secret = json.load(f)
+  OPENAI_API_KEY = secret['OPENAI_API_KEY']
+  if not OPENAI_API_KEY:
+    raise RecursionError('OPENAI_API_KEY missing in secret.json')
+except FileNotFoundError:
+  raise RuntimeError('secret.json file not found.')
+except json.JSONDecodeError:
+  raise RuntimeError('secret.json file is not valid JSON.')
+
+client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+
+# Create MCP instance
 mcp = FastMCP('My App', dependencies = ['pandas','numpy'])
 
 sys.stderr.write(f'[DEBUG] FastMCP instance created.\n')
@@ -73,10 +90,153 @@ def ask_review(code_snippet: str) -> str:
 def debug_session_start(error_message: str) -> list[Message]:
   """ Initialize a new debugging help session. """
   return [
-    UserMessage(f"I encountered an error: \n{error_message}"),
-    AssistantMessage(f"Okay, I can help with that. Can you provide the full traceback and tell me what you were trying to do?")
+    {"role" : "user", "content": f"I encountered an error: \n{error_message}"},
+    {"role" : "assistant", "content": f"Okay, I can help with that. Can you provide the full traceback and tell me what you were trying to do?"},
   ]
+
+#--------------------------
+# Context Resource & Tools
+#--------------------------
+
+@mcp.resource("system://status/{system_id}")
+async def get_system_status(system_id: str) -> dict:
+  """ Check system status and logs information. """
+  return {"status" : "ok", "system_id" : system_id}
+
+@mcp.tool()
+async def process_large_file(file_uri: str, ctx:Context) -> str:
+  """ Process a large file and reporting progress and reading resources. Supports both MCP resource URIs and file:/// URIs. """
+  await ctx.info(f"Processing file: {file_uri}")
+  file_content = None
   
+  if file_uri.startswith("file://"):
+    parsed = urlparse(file_uri)
+    path = unquote(parsed.path)
+    if not os.path.exists(path):
+      await ctx.error(f"File not found: {path}")
+    with open(path, "r", encoding="utf`-8") as f:
+      file_content = f.read()
+  else:
+    file_content_resource = await ctx.read_resource(file_uri)
+    file_content = file_content_resource[0].content
+    
+  lines = file_content.splitlines()
+  total_lines = len(lines)
+  
+  for i, line in enumerate(lines):
+    if (i + 1) % 100 == 0:
+      await ctx.report_progress(i + 1, total_lines)
+      
+  await ctx.info(f'Finished processing {file_uri}')
+  return f"Processed {total_lines} lines"
+
+#--------------------------
+# Image Tools
+#--------------------------
+
+@mcp.tool()
+def creat_thumbnail(image_data) -> str:
+  """
+  Create a 100x100 thumbnail from the provided image.
+  Saves it as '<original_filename>_thumbnail.<extension>' and returns the file path.
+  Supports both file:/// and plain local file paths as input.
+  """
+  
+  if isinstance(image_data, str):
+    if image_data.startswith("file:///"):
+      parsed = urlparse(image_data)
+      path = unquote(parsed.path)
+    else:
+      path = image_data
+    if not os.path.exists(path):
+      raise FileNotFoundError(f'Image file not found: {path}')
+    with open(path, "rb") as f:
+      image_bytes = f.read()
+    img = PILImage.open(io.BytesIO(image_bytes))
+    base, ext = os.path.splitext(os.path.basename(path))
+    output_path = os.path.join(os.path.dirname(path), f"{base}_thumbnail{ext}")
+  elif isinstance(image_data, ImageData):
+    img = PILImage.open(io.BytesIO(image_data.data))
+    output_path = "thumbnail.png"
+  else:
+    raise ValueError(f"image_data must be an ImageData object or a file path string")
+  img.thumbnail((100, 100))
+  img.save(output_path, format="PNG")
+  return output_path
+
+@mcp.tool()
+def load_image_from_disk(path:str) -> str:
+  """
+  Loads an image from disk the specified path(supports file:///),
+  saves it as '<original_filename>_thumbnail.<extension>',
+  show the image, and returns the file path
+  """
+  
+  if isinstance(path, str) and path.startswith("file://"):
+    parsed = urlparse(path)
+    real_path = unquote(parsed.path)
+  else:
+    real_path=path
+  if not os.path.exists(real_path):
+    raise FileNotFoundError(f'Image file not found: {real_path}')
+  with open(real_path, "rb") as f:
+    data = f.read()
+  base, ext = os.path.splitext(os.path.basename(real_path))
+  output_path = os.path.join(os.path.dirname(real_path), f"{base}_loaded{ext}")
+  with open(output_path, "wb") as f:
+    f.write(data)
+  img = PILImage.open(io.BytesIO(data))
+  img.show()
+  return output_path
+
+#--------------------------
+# LLM Sampling
+#--------------------------
+@mcp.tool()
+async def generate_poem(topic: str, context:Context) -> str:
+  """ Generate a short poem and the given topic. """
+  
+  response = await client.chat.completion.create(
+    model = "gpt-3.5-turbo",
+    message = [
+      {'role' : 'system', 'content': f'You are a talent port who writes concise, evocative verses.'},
+      {'role':'user', 'content': f'Write a short poem about {topic}.'}
+    ]
+  )
+  return response.choices[0].message.content
+
+@mcp.tool()
+async def summarize_document(document:str, context:Context)->str:
+  """ 
+  Summarize a document using server-side LLM capabilities. 
+  
+  Args:
+    document (str): Either a resource URI (e.g., "system://docs/example.txt") or the actual document content.
+    context: The MCP context
+    
+  Returns:
+    A concise summary of the document
+  """
+  
+  if document.startswith("system://", "config://", "db://", "data://"):
+    try:
+      doc_resource = await context.read_resource(document)
+      content = doc_resource[0].content
+    except Exception as e:
+      return f'Error reading document: {str(e)}'
+  else:
+    content = document
+  response = await client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+      {'role': 'system', 'content': 'You are an expert summarizer. Create a concise summary.'},
+      {'role': 'user', 'content': f'Summarize the following document: {content}'}
+    ]
+  )
+  return response.choices[0].message.content
+
+
+
 mcp
 
 sys.stderr.write(f'[DEBUG] mcp object is referenced and ready.\n')
