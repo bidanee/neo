@@ -4,7 +4,7 @@ import lmstudio as lms
 class BookSchema(BaseModel):
   title: str
   author: str
-  year: str
+  year: int
   
 model = lms.llm()
 
