@@ -71,3 +71,5 @@ docker/mongo/mongod
 z_mediapipe/*
 
 **/__pycache__/*
+
+test.py
